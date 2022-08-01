@@ -1,0 +1,21 @@
+﻿[
+  {
+    "Id": 1,
+    "Position": {
+      "X": -5,
+      "Y": -2,
+      "Z": 1
+    },
+    "DurationChange": 1,
+    "Type": 2
+  },
+  {
+    "Id": 2,
+    "Position": {
+      "X": 3,
+      "Y": 5,
+      "Z": 2
+    },
+    "Type": 1
+  }
+]
