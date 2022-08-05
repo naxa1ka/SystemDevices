@@ -2,11 +2,11 @@
 
 namespace Source
 {
-    public class PositionView : MonoBehaviour, IView<UnityEngine.Vector3>
+    public class PositionView : MonoBehaviour, IView<Vector3>
     {
-        public void SetValue(UnityEngine.Vector3 value)
+        public void SetValue(Vector3 value)
         {
-            transform.position = value;
+            transform.position = value.ToMonoVector3();
         }
     }
 }

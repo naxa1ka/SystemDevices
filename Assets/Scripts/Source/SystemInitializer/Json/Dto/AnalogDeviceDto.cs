@@ -3,10 +3,8 @@
 namespace Source
 {
     [Serializable]
-    public class AnalogDeviceDto : BaseDto
+    public class AnalogDeviceDto : BaseDeviceDto
     {
-        public int Id;
-        public Vector3 Position;
         public float DurationChange;
     }
 }

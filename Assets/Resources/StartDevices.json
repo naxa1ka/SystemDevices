@@ -1,21 +1,65 @@
 ﻿[
   {
+    "DurationChange": 1,
     "Id": 1,
+    "Position": {
+      "X": 1,
+      "Y": 1,
+      "Z": 1
+    },
+    "Type": 2,
+    "ResolverType": 1,
+    "DeviceActions": [
+      {
+        "RotationSpeed": {
+          "X": 1,
+          "Y": 1,
+          "Z": 1
+        },
+        "Type": 1
+      }
+    ]
+  },
+  {
+    "DurationChange": 1,
+    "Id": 2,
+    "Position": {
+      "X": 10,
+      "Y": 12,
+      "Z": 1
+    },
+    "Type": 2,
+    "ResolverType": 1,
+    "DeviceActions": [
+      {
+        "RotationSpeed": {
+          "X": 4,
+          "Y": 2,
+          "Z": 1
+        },
+        "Type": 1
+      }
+    ]
+  },
+  {
+    "DurationChange": 2,
+    "Id": 3,
     "Position": {
       "X": -5,
       "Y": -2,
       "Z": 1
     },
-    "DurationChange": 1,
-    "Type": 2
-  },
-  {
-    "Id": 2,
-    "Position": {
-      "X": 3,
-      "Y": 5,
-      "Z": 2
-    },
-    "Type": 1
+    "Type": 2,
+    "ResolverType": 1,
+    "DeviceActions": [
+      {
+        "RotationSpeed": {
+          "X": 1,
+          "Y": 1,
+          "Z": 1
+        },
+        "Type": 1
+      }
+    ]
   }
 ]

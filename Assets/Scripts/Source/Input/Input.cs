@@ -3,6 +3,6 @@
     public class Input : IInput
     {
         public UnityEngine.Vector3 MousePosition => UnityEngine.Input.mousePosition;
-        public bool WasLKMClicked => UnityEngine.Input.GetMouseButtonDown(0);
+        public bool WasPKMClicked => UnityEngine.Input.GetMouseButtonDown(1);
     }
 }

@@ -6,11 +6,14 @@ namespace Source
 {
     public sealed class JsonSystemInitializer
     {
-        private readonly ISystemInitializer _systemInitializer;
+        private readonly IMutableSystemDevices _mutableSystemDevices;
+        private readonly DeviceBuilderFactory _deviceBuilderFactory;
+        private IDeviceBuilder _deviceBuilder;
 
-        public JsonSystemInitializer(ISystemInitializer systemInitializer)
+        public JsonSystemInitializer(IMutableSystemDevices mutableSystemDevices, DeviceBuilderFactory deviceBuilderFactory)
         {
-            _systemInitializer = systemInitializer;
+            _mutableSystemDevices = mutableSystemDevices;
+            _deviceBuilderFactory = deviceBuilderFactory;
         }
 
         public void AddDevices(string json)
@@ -20,18 +23,56 @@ namespace Source
             var items = JsonConvert.DeserializeObject<List<object>>(json);
             foreach (var item in items)
             {
+                _deviceBuilder = _deviceBuilderFactory.Create();
+                
                 var jsonItem = JsonConvert.SerializeObject(item);
-                var itemType = JsonConvert.DeserializeObject<BaseDto>(jsonItem).Type;
-                switch (itemType)
+                var baseDeviceDto = JsonConvert.DeserializeObject<BaseDeviceDto>(jsonItem);
+                var itemType = baseDeviceDto.Type;
+
+                _deviceBuilder.SetCollisionResolverType(baseDeviceDto.ResolverType);
+                
+                ParseMoveStrategy(itemType, jsonItem);
+                ParseDeviceActions(baseDeviceDto);
+              
+                _mutableSystemDevices.AddDevice(_deviceBuilder.Build());
+            }
+        }
+
+        private void ParseMoveStrategy(DeviceDtoType itemType, string jsonItem)
+        {
+            switch (itemType)
+            {
+                case DeviceDtoType.AnalogDevice:
+                    var analogDeviceDto = GetDeserializeObject<AnalogDeviceDto>(jsonItem);
+                    _deviceBuilder.SetMoveStrategy(analogDeviceDto);
+                    break;
+                case DeviceDtoType.DiscreteDevice:
+                    var discreteDeviceDto = GetDeserializeObject<DiscreteDeviceDto>(jsonItem);
+                    _deviceBuilder.SetMoveStrategy(discreteDeviceDto);
+                    break;
+                default:
+                    throw new ArgumentException($"Unknown type of dto {itemType}!");
+            }
+        }
+
+        private void ParseDeviceActions(BaseDeviceDto baseDeviceDto)
+        {
+            if (baseDeviceDto.DeviceActions != null)
+            {
+                foreach (var actionItem in baseDeviceDto.DeviceActions)
                 {
-                    case DtoType.AnalogDevice:
-                        AddDevice(GetDeserializeObject<AnalogDeviceDto>(jsonItem));
-                        break;
-                    case DtoType.DiscreteDevice:
-                        AddDevice(GetDeserializeObject<DiscreteDeviceDto>(jsonItem));
-                        break;
-                    default:
-                        throw new ArgumentException($"Unknown type of dto {itemType}!");
+                    var actionJsonItem = JsonConvert.SerializeObject(actionItem);
+                    var actionBaseDeviceDto = JsonConvert.DeserializeObject<BaseDeviceActionDto>(actionJsonItem);
+                    var actionItemType = actionBaseDeviceDto.Type;
+                    switch (actionItemType)
+                    {
+                        case DeviceActionDtoType.Rotation:
+                            var rotationDeviceDto = GetDeserializeObject<RotationDeviceActionDto>(actionJsonItem);
+                            _deviceBuilder.AddRotationToDevice(rotationDeviceDto);
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
                 }
             }
         }
@@ -39,16 +80,6 @@ namespace Source
         private T GetDeserializeObject<T>(string jsonItem)
         {
             return JsonConvert.DeserializeObject<T>(jsonItem);
-        }
-
-        private void AddDevice(AnalogDeviceDto deviceDto)
-        {
-            _systemInitializer.AddDevice(deviceDto.Id, deviceDto.Position, deviceDto.DurationChange);
-        }
-
-        private void AddDevice(DiscreteDeviceDto deviceDto)
-        {
-            _systemInitializer.AddDevice(deviceDto.Id, deviceDto.Position);
         }
     }
 }

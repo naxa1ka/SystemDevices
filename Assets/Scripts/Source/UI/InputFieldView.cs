@@ -1,11 +1,11 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
+﻿using TMPro;
+using UnityEngine;
 
 namespace Source
 {
     public class InputFieldView: MonoBehaviour, IInputView<string>
     {
-        [SerializeField] private InputField _inputField;
+        [SerializeField] private TMP_InputField _inputField;
         public string Value => _inputField.text;
     }
 }

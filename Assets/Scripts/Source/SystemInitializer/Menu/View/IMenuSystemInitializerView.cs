@@ -2,9 +2,10 @@
 {
     public interface IMenuSystemInitializerView
     {
-        ITriggerView SpawnAnalogDeviceTrigger { get; }
-        ITriggerView SpawnDiscreteDeviceTrigger { get; }
+        ITriggerView SpawnDeviceTrigger { get; }
         IInputView<string> DurationChangingStateInput { get; }
-        IInputView<string> Id { get; }
+        IInputView<string> RotationAngleInput { get; }
+        IInputView<string> IdInput { get; }
+        IEnumDropDownList<CollisionResolverType> CollisionResolverType { get; }
     }
 }

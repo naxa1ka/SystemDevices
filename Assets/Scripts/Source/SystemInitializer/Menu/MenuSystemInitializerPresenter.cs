@@ -1,63 +1,87 @@
 ﻿using System;
+using System.Linq;
 
 namespace Source
 {
     public class MenuSystemInitializerPresenter : IDisposable
     {
         private readonly IMenuSystemInitializerView _view;
-        private readonly ISystemInitializer _systemInitializer;
         private readonly IReadOnlySystemDevices _systemDevices;
+        private readonly DeviceBuilderFactory _deviceBuilderFactory;
+        private readonly IMutableSystemDevices _mutableSystemDevices;
 
-        public MenuSystemInitializerPresenter(IMenuSystemInitializerView view,
-            ISystemInitializer systemInitializer,
-            IReadOnlySystemDevices systemDevices)
+        public MenuSystemInitializerPresenter(
+            IMenuSystemInitializerView view,
+            IReadOnlySystemDevices systemDevices,
+            DeviceBuilderFactory deviceBuilderFactory,
+            IMutableSystemDevices mutableSystemDevices)
         {
             _view = view;
-            _systemInitializer = systemInitializer;
             _systemDevices = systemDevices;
+            _deviceBuilderFactory = deviceBuilderFactory;
+            _mutableSystemDevices = mutableSystemDevices;
 
-            _view.SpawnAnalogDeviceTrigger.Clicked += OnSpawnAnalogDeviceClicked;
-            _view.SpawnDiscreteDeviceTrigger.Clicked += OnSpawnDiscreteDeviceClicked;
+            _view.SpawnDeviceTrigger.Clicked += OnSpawnButtonClicked;
+            InitCollisionResolverTypeDropdown();
         }
 
-        private void OnSpawnDiscreteDeviceClicked()
+        private void InitCollisionResolverTypeDropdown()
         {
-            if (TryParseNotExistedId(out var id))
-            {
-                _systemInitializer.AddDevice(id, new Vector3());
-            }
+            var listEnum = EnumExtensions.GetListEnum<CollisionResolverType>();
+            listEnum.Remove(CollisionResolverType.None);
+            _view.CollisionResolverType.SetValue(listEnum);
         }
 
-        private void OnSpawnAnalogDeviceClicked()
+        private void OnSpawnButtonClicked()
         {
-            if (float.TryParse(_view.DurationChangingStateInput.Value, out var durationChangingState))
+            if (!TryParseNotExistedId(out var id)) return;
+            
+            var deviceBuilder = _deviceBuilderFactory.Create();
+            if (float.TryParse(_view.DurationChangingStateInput.Value, out var duration))
             {
-                if (TryParseNotExistedId(out var id))
+                deviceBuilder.SetMoveStrategy(new AnalogDeviceDto()
                 {
-                    _systemInitializer.AddDevice(id, new Vector3(), durationChangingState);
-                }
+                    Id = id,
+                    DurationChange = duration,
+                });
             }
-        }
+            else
+            {
+                deviceBuilder.SetMoveStrategy(new DiscreteDeviceDto()
+                {
+                    Id = id,
+                });
+            }
 
-        public void Dispose()
-        {
-            _view.SpawnAnalogDeviceTrigger.Clicked -= OnSpawnAnalogDeviceClicked;
-            _view.SpawnDiscreteDeviceTrigger.Clicked -= OnSpawnDiscreteDeviceClicked;
+            if (float.TryParse(_view.RotationAngleInput.Value, out var rotationAngle))
+            {
+                deviceBuilder.AddRotationToDevice(new RotationDeviceActionDto()
+                {
+                    RotationSpeed = new Vector3(rotationAngle, rotationAngle, rotationAngle)
+                });
+            }
+
+            deviceBuilder.SetCollisionResolverType(_view.CollisionResolverType.Value);
+            _mutableSystemDevices.AddDevice(deviceBuilder.Build());
         }
 
         private bool TryParseNotExistedId(out int result)
         {
-            if (int.TryParse(_view.Id.Value, out var id))
+            if (int.TryParse(_view.IdInput.Value, out var id))
             {
-                if (!_systemDevices.TryGetDevice(id, out var device))
+                if (!_systemDevices.ListId.Contains(id))
                 {
                     result = id;
                     return true;
                 }
             }
 
-            result = default;
-            return false;
+            throw new ArgumentException("Device with same id is exists!");
+        }
+
+        public void Dispose()
+        {
+            _view.SpawnDeviceTrigger.Clicked -= OnSpawnButtonClicked;
         }
     }
 }

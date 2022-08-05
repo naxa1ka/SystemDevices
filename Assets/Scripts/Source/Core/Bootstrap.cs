@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
+using UnityEngine;
 
 namespace Source
 {
@@ -12,40 +14,52 @@ namespace Source
         {
             ISystemLoop systemLoop = _sceneContext.GameSystemLoop;
             IDeviceViewFactory deviceViewFactory = new DeviceViewFactory(_sceneContext.DeviceView);
-            IDeviceFactory deviceFactory = new DeviceFactory(deviceViewFactory, systemLoop);
             IInput input = new Input();
 
-            var commonSystemDevices = new CommonSystemDevices();
-            IMutableSystemDevices mutableSystemDevices = commonSystemDevices;
-            IReadOnlySystemDevices readOnlySystemDevices = commonSystemDevices;
+            var systemDevices = new SystemDevices();
 
-            ICommandAfterResolve commandAfterResolve = new CommandAfterResolve(commonSystemDevices);
-            ICollisionResolver collisionResolver = new AwaitableCollisionResolver(commandAfterResolve);
-
-            ISystemDevices systemDevices = new SystemDevicesWithCollisionResolver(
-                commonSystemDevices,
-                commonSystemDevices,
-                collisionResolver
-            );
-
-
-            ISystemInitializer systemInitializer = new SystemInitializer(mutableSystemDevices, deviceFactory);
-            _jsonSystemInitializer = new JsonSystemInitializer(systemInitializer);
+            ICommandAfterResolve commandAfterResolve = new CommandAfterResolve(systemDevices);
+            DeviceBuilderFactory deviceBuilderFactory = new DeviceBuilderFactory(deviceViewFactory, systemLoop, commandAfterResolve);
+            _jsonSystemInitializer = new JsonSystemInitializer(systemDevices, deviceBuilderFactory);
 
             DeviceInteractorPresenter deviceInteractorPresenter = new DeviceInteractorPresenter(
-                readOnlySystemDevices,
+                systemDevices,
                 systemDevices,
                 input,
                 _sceneContext.Camera,
                 _sceneContext.DeviceInteractorView
             );
             systemLoop.Attach(deviceInteractorPresenter);
+
+            // var json = JsonConvert.SerializeObject(new List<BaseDeviceDto>()
+            // {
+            //     new AnalogDeviceDto()
+            //     {
+            //         DeviceActions = new List<object>()
+            //         {
+            //             new RotationDeviceActionDto()
+            //             {
+            //                 RotationSpeed = new Vector3(1,1,1),
+            //                 Type = DeviceActionDtoType.Rotation
+            //             }
+            //         },
+            //         DurationChange = 10,
+            //         Id = 1,
+            //         Position = new Vector3(1,1,1),
+            //         Type = DeviceDtoType.AnalogDevice,
+            //         ResolverType = CollisionResolverType.Awaitable
+            //     }
+            // });
+            // Debug.Log(json);
+
+            
             
             MenuSystemInitializerPresenter menuSystemInitializerPresenter =
                 new MenuSystemInitializerPresenter(
                     _sceneContext.MenuSystemInitializerView,
-                    systemInitializer,
-                    readOnlySystemDevices);
+                    systemDevices,
+                    deviceBuilderFactory,
+                    systemDevices);
         }
 
         private void Start()

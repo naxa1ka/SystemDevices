@@ -9,6 +9,7 @@ namespace Source
         private readonly ISystemDevices _systemDevices;
         private readonly Camera _camera;
         private readonly IInput _input;
+        private int _lastCountIds;
 
         public DeviceInteractorPresenter(
             IReadOnlySystemDevices readOnlySystemDevices,
@@ -26,7 +27,7 @@ namespace Source
 
         public void Update(float dt)
         {
-            if (_input.WasLKMClicked)
+            if (_input.WasPKMClicked)
             {
                 var worldPosition = GetWorldPositionOfMouse();
 
@@ -34,7 +35,11 @@ namespace Source
                 _systemDevices.SetTargetDeviceState(selectedId, worldPosition.FromMonoVector3());
             }
 
-            _view.ListIdDevices.SetValue(_readOnlySystemDevices.ListId);
+            if (_lastCountIds != _readOnlySystemDevices.ListId.Count)
+            {
+                _view.ListIdDevices.SetValue(_readOnlySystemDevices.ListId);
+                _lastCountIds = _readOnlySystemDevices.ListId.Count;
+            }
         }
 
         private UnityEngine.Vector3 GetWorldPositionOfMouse()

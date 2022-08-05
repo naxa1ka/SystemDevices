@@ -3,10 +3,7 @@
 namespace Source
 {
     [Serializable]
-    public class DiscreteDeviceDto : BaseDto
+    public class DiscreteDeviceDto : BaseDeviceDto
     {
-        public int Id;
-        public Vector3 Position;
     }
-
 }

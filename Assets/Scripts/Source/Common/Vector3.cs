@@ -27,5 +27,10 @@ namespace Source
         {
             return $"({X},{Y},{Z})";
         }
+        
+        public static Vector3 operator +(Vector3 a, Vector3 b)
+        {
+            return new Vector3(a.X + b.X, b.Y + b.Y, a.Z + b.Z);
+        }
     }
 }
