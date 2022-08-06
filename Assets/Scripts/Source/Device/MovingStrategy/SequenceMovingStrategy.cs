@@ -6,16 +6,16 @@ namespace Source
     public class SequenceMovingStrategy : IMovingStrategy
     {
         private readonly IMovingStrategy _movingStrategy;
-        private readonly List<MovingAction> _onMovingActionWithDurations;
+        private readonly List<MovingAction> _movingActions;
         private float _currentTime;
         
         public bool IsBusy => _movingStrategy.IsBusy;
         public event Action TaskCompleted;
 
-        public SequenceMovingStrategy(IMovingStrategy movingStrategy, List<MovingAction> onMovingActionWithDurations)
+        public SequenceMovingStrategy(IMovingStrategy movingStrategy, List<MovingAction> movingActions)
         {
             _movingStrategy = movingStrategy;
-            _onMovingActionWithDurations = onMovingActionWithDurations;
+            _movingActions = movingActions;
         }
 
         public void Update(float dt)
@@ -25,14 +25,14 @@ namespace Source
             _currentTime += dt;
             _movingStrategy.Update(dt);
 
-            foreach (var action in _onMovingActionWithDurations)
+            foreach (var action in _movingActions)
             {
-                if (IsTimeToExecute(action))
-                    action.OnMovingAction.Update(dt);
+                if (IsTimeToExecuteAction(action))
+                    action.IMovingAction.Update(dt);
             }
         }
 
-        private bool IsTimeToExecute(MovingAction action)
+        private bool IsTimeToExecuteAction(MovingAction action)
         {
             if (_currentTime > action.StartTime && action.IsInfinityAction)
                 return true;
@@ -48,8 +48,8 @@ namespace Source
 
         private void Reset()
         {
-            foreach (var action in _onMovingActionWithDurations)
-                action.OnMovingAction.Reset();
+            foreach (var action in _movingActions)
+                action.IMovingAction.Reset();
             _currentTime = 0;
         }
 

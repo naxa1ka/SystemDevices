@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Source
 {
@@ -9,7 +8,7 @@ namespace Source
         private readonly IDeviceViewFactory _deviceViewFactory;
         private readonly ISystemLoop _systemLoop;
 
-        private readonly List<MovingAction> _onMovingActions;
+        private readonly List<MovingAction> _movingActions;
         private IMovingStrategy _movingStrategy;
         private CollisionResolverType _collisionResolverType;
         private IDeviceView _view;
@@ -23,7 +22,7 @@ namespace Source
         {
             _deviceViewFactory = deviceViewFactory;
             _systemLoop = systemLoop;
-            _onMovingActions = new List<MovingAction>();
+            _movingActions = new List<MovingAction>();
         }
 
         public IDeviceBuilder SetCollisionResolverType(CollisionResolverType collisionResolverType)
@@ -49,7 +48,7 @@ namespace Source
         public IDeviceBuilder AddRotation(RotationDeviceActionDto dto)
         {
             var rotator = new DeviceRotator(View.Rotation, dto.RotationSpeed);
-            _onMovingActions.Add(new MovingAction(rotator, dto.StartTime));
+            _movingActions.Add(new MovingAction(rotator, dto.StartTime));
             return this;
         }
 
@@ -61,14 +60,14 @@ namespace Source
                 dto.TargetColor.ToUnityColor(),
                 dto.Duration
             );
-            _onMovingActions.Add(new MovingAction(colorChanger, dto.Duration, dto.StartTime));
+            _movingActions.Add(new MovingAction(colorChanger, dto.Duration, dto.StartTime));
             return this;
         }
 
         public Device Build()
         {
-            if (_onMovingActions.Count > 0)
-                _movingStrategy = new SequenceMovingStrategy(_movingStrategy, _onMovingActions);
+            if (_movingActions.Count > 0)
+                _movingStrategy = new SequenceMovingStrategy(_movingStrategy, _movingActions);
 
             var collisionResolver = CreateCollisionResolver();
             var device = new Device(collisionResolver, _movingStrategy, _id);

@@ -2,7 +2,7 @@
 
 namespace Source
 {
-    public class DeviceColorChanger : IOnMovingAction
+    public class DeviceColorChanger : IMovingAction
     {
         private readonly IView<Color32> _view;
         private readonly Color32 _initColor;

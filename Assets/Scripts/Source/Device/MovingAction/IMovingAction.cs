@@ -1,6 +1,6 @@
 ﻿namespace Source
 {
-    public interface IOnMovingAction : IUpdateble
+    public interface IMovingAction : IUpdateble
     {
         public void Reset();
     }

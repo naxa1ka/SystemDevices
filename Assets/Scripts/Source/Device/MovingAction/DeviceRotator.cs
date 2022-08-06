@@ -1,6 +1,6 @@
 ﻿namespace Source
 {
-    public class DeviceRotator : IOnMovingAction
+    public class DeviceRotator : IMovingAction
     {
         private readonly IView<Vector3> _view;
         private readonly Vector3 _rotationSpeed;
