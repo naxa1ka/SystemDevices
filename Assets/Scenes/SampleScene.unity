@@ -237,7 +237,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Camera>k__BackingField: {fileID: 963194227}
   <GameSystemLoop>k__BackingField: {fileID: 707883610}
-  <DeviceView>k__BackingField: {fileID: -696663415830903684, guid: c6348f664cc2c784e974a8621b73f239, type: 3}
+  <DeviceView>k__BackingField: {fileID: 459507845647090199, guid: c94acbb627061014487234e5cafb7496, type: 3}
   <DeviceInteractorView>k__BackingField: {fileID: 730557307}
   <MenuSystemInitializerView>k__BackingField: {fileID: 730557308}
 --- !u!4 &501203435

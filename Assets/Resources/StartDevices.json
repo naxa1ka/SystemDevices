@@ -1,6 +1,6 @@
 ﻿[
   {
-    "DurationChange": 10,
+    "DurationChange": 3,
     "Id": 1,
     "Position": {
       "X": 1,
@@ -8,32 +8,52 @@
       "Z": 1
     },
     "Type": "AnalogDevice",
-    "ResolverType": "Awaitable",
+    "ResolverType": "AwaitableQueue",
     "DeviceActions": [
       {
         "RotationSpeed": {
           "X": 1,
-          "Y": 1,
+          "Y": 0,
+          "Z": 0
+        },
+        "Type": "Rotation",
+        "StartTime": 0,
+        "Duration": 1
+      },
+      {
+        "RotationSpeed": {
+          "X": 0,
+          "Y": 0,
           "Z": 1
         },
         "Type": "Rotation",
-        "StartTime": 0.25,
-        "Duration": 0
+        "StartTime": 1,
+        "Duration": 1
+      },
+      {
+        "RotationSpeed": {
+          "X": 1,
+          "Y": 0,
+          "Z": 1
+        },
+        "Type": "Rotation",
+        "StartTime": 2,
+        "Duration": 1
       },
       {
         "InitColor": {
-          "r": 100,
-          "g": 128,
-          "b": 128
+          "r": 1,
+          "g": 1,
+          "b": 1
         },
         "TargetColor": {
-          "r": 222,
-          "g": 256,
-          "b": 256
+          "r": 0,
+          "g": 0,
+          "b": 0
         },
         "Type": "Color",
-        "StartTime": 0.25,
-        "Duration": 0
+        "StartTime": 0,
+        "Duration": 1
       },
       {
         "InitColor": {
@@ -42,13 +62,28 @@
           "b": 0
         },
         "TargetColor": {
-          "r": 128,
-          "g": 128,
-          "b": 128
+          "r": 1,
+          "g": 1,
+          "b": 0
         },
         "Type": "Color",
-        "StartTime": 0.25,
-        "Duration": 0
+        "StartTime": 1,
+        "Duration": 1
+      },
+      {
+        "InitColor": {
+          "r": 1,
+          "g": 1,
+          "b": 0
+        },
+        "TargetColor": {
+          "r": 1,
+          "g": 1,
+          "b": 1
+        },
+        "Type": "Color",
+        "StartTime": 2,
+        "Duration": 1
       }
     ]
   }
