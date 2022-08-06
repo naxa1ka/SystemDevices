@@ -1087,6 +1087,7 @@ GameObject:
   - component: {fileID: 848229060918494630}
   - component: {fileID: -3914082841262994191}
   - component: {fileID: -2240000228328740077}
+  - component: {fileID: 2771969180013877311}
   - component: {fileID: -696663415830903684}
   m_Layer: 0
   m_Name: DeviceView
@@ -1153,6 +1154,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 546364b2e83d41868c8c15e464a20636, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2771969180013877311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 761750486789878036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17b6e332540b4040ba4c20d21f3d6655, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _renderer: {fileID: 775659792702109180}
 --- !u!114 &-696663415830903684
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1167,6 +1181,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _positionView: {fileID: -3914082841262994191}
   _rotationView: {fileID: -2240000228328740077}
+  _colorView: {fileID: 2771969180013877311}
 --- !u!1 &761751104625196822
 GameObject:
   m_ObjectHideFlags: 0

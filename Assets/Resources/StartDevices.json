@@ -1,14 +1,14 @@
 ﻿[
   {
-    "DurationChange": 1,
+    "DurationChange": 10,
     "Id": 1,
     "Position": {
       "X": 1,
       "Y": 1,
       "Z": 1
     },
-    "Type": 2,
-    "ResolverType": 1,
+    "Type": "AnalogDevice",
+    "ResolverType": "Awaitable",
     "DeviceActions": [
       {
         "RotationSpeed": {
@@ -16,49 +16,39 @@
           "Y": 1,
           "Z": 1
         },
-        "Type": 1
-      }
-    ]
-  },
-  {
-    "DurationChange": 1,
-    "Id": 2,
-    "Position": {
-      "X": 10,
-      "Y": 12,
-      "Z": 1
-    },
-    "Type": 2,
-    "ResolverType": 1,
-    "DeviceActions": [
+        "Type": "Rotation",
+        "StartTime": 0.25,
+        "Duration": 0
+      },
       {
-        "RotationSpeed": {
-          "X": 4,
-          "Y": 2,
-          "Z": 1
+        "InitColor": {
+          "r": 100,
+          "g": 128,
+          "b": 128
         },
-        "Type": 1
-      }
-    ]
-  },
-  {
-    "DurationChange": 2,
-    "Id": 3,
-    "Position": {
-      "X": -5,
-      "Y": -2,
-      "Z": 1
-    },
-    "Type": 2,
-    "ResolverType": 1,
-    "DeviceActions": [
+        "TargetColor": {
+          "r": 222,
+          "g": 256,
+          "b": 256
+        },
+        "Type": "Color",
+        "StartTime": 0.25,
+        "Duration": 0
+      },
       {
-        "RotationSpeed": {
-          "X": 1,
-          "Y": 1,
-          "Z": 1
+        "InitColor": {
+          "r": 0,
+          "g": 0,
+          "b": 0
         },
-        "Type": 1
+        "TargetColor": {
+          "r": 128,
+          "g": 128,
+          "b": 128
+        },
+        "Type": "Color",
+        "StartTime": 0.25,
+        "Duration": 0
       }
     ]
   }

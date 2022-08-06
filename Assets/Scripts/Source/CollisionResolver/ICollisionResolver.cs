@@ -1,9 +1,7 @@
-﻿using System;
-
-namespace Source
+﻿namespace Source
 {
     public interface ICollisionResolver
     {
-        void Resolve(int deviceId, Vector3 targetPosition, Action onResolved);
+        void Resolve(Device device, Vector3 targetPosition);
     }
 }

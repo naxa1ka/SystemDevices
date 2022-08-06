@@ -6,11 +6,14 @@ namespace Source
     public class BaseDeviceActionDto
     {
         public DeviceActionDtoType Type;
+        public float StartTime;
+        public float Duration;
     }
     
     public enum DeviceActionDtoType
     {
         None = 0,
         Rotation = 1,
+        Color = 2
     }
 }

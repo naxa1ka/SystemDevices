@@ -3,8 +3,9 @@
     public enum CollisionResolverType
     {
         None = 0,
-        Awaitable = 1,
-        Exception = 2,
-        Force = 3 
+        AwaitableQueue = 1,
+        Awaitable = 2,
+        Exception = 3,
+        Force = 4 
     }
 }

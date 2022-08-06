@@ -2,17 +2,26 @@
 {
     public class DeviceRotator : IOnMovingAction
     {
+        private readonly IView<Vector3> _view;
         private readonly Vector3 _rotationSpeed;
-        public Vector3 Angle { get; private set; }
         
-        public DeviceRotator(Vector3 rotationSpeed)
+        private Vector3 _angle;
+        
+        public DeviceRotator(IView<Vector3> view, Vector3 rotationSpeed)
         {
+            _view = view;
             _rotationSpeed = rotationSpeed;
         }
 
         public void Update(float dt)
         {
-            Angle += _rotationSpeed;
+            _angle += _rotationSpeed;
+            _view.SetValue(_angle);
+        }
+
+        public void Reset()
+        {
+            
         }
     }
 }

@@ -1,47 +1,33 @@
-﻿using System.Collections.Generic;
-
-namespace Source
+﻿namespace Source
 {
     public class Device : IUpdateble
     {
         private readonly ICollisionResolver _collisionResolver;
-        private readonly IMovingStrategy _movingStrategy;
-        private readonly List<IOnMovingAction> _onMovingStrategies;
-        
+
+        public IMovingStrategy MovingStrategy { get; }
         public int Id { get; }
-        
+
         public Device(
             ICollisionResolver collisionResolver,
             IMovingStrategy movingStrategy,
-            List<IOnMovingAction> onMovingStrategies,
             int id)
         {
             _collisionResolver = collisionResolver;
-            _movingStrategy = movingStrategy;
-            _onMovingStrategies = onMovingStrategies;
+            MovingStrategy = movingStrategy;
             Id = id;
         }
 
         public void SetTargetPosition(Vector3 targetPosition)
         {
-            if (_movingStrategy.IsBusy)
-                _collisionResolver.Resolve(Id, targetPosition, () => { SetTargetPosition2(targetPosition);});
+            if (MovingStrategy.IsBusy)
+                _collisionResolver.Resolve(this, targetPosition);
             else
-                _movingStrategy.SetTargetPosition(targetPosition);
+                MovingStrategy.SetTargetPosition(targetPosition);
         }
 
-        private void SetTargetPosition2(Vector3 targetPosition)
-        {
-                _movingStrategy.SetTargetPosition(targetPosition);
-        }
-        
         public void Update(float dt)
         {
-            _movingStrategy.Update(dt);
-            if (!_movingStrategy.IsBusy) return;
-            
-            foreach (var onMovingStrategy in _onMovingStrategies)
-                onMovingStrategy.Update(dt);
+            MovingStrategy.Update(dt);
         }
     }
 }

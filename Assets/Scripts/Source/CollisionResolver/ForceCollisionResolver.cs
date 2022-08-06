@@ -1,13 +1,10 @@
-﻿using System;
-
-namespace Source
+﻿namespace Source
 {
     public class ForceCollisionResolver : ICollisionResolver
     {
-        public void Resolve(int deviceId, Vector3 targetPosition, Action onResolved)
+        public void Resolve(Device device, Vector3 targetPosition)
         {
-            onResolved.Invoke();
+            device.MovingStrategy.SetTargetPosition(targetPosition);
         }
-        
     }
 }

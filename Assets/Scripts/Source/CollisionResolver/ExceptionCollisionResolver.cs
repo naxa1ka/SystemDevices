@@ -4,8 +4,8 @@ namespace Source
 {
     public class ExceptionCollisionResolver : ICollisionResolver
     {
-        public void Resolve(int deviceId, Vector3 targetPosition, Action onResolved)
-        {
+        public void Resolve(Device device, Vector3 targetPosition)
+        {  
             throw new CollisionException("Device is already busy!");
         }
     }

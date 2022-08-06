@@ -53,14 +53,6 @@ namespace Source
                 });
             }
 
-            if (float.TryParse(_view.RotationAngleInput.Value, out var rotationAngle))
-            {
-                deviceBuilder.AddRotationToDevice(new RotationDeviceActionDto()
-                {
-                    RotationSpeed = new Vector3(rotationAngle, rotationAngle, rotationAngle)
-                });
-            }
-
             deviceBuilder.SetCollisionResolverType(_view.CollisionResolverType.Value);
             _mutableSystemDevices.AddDevice(deviceBuilder.Build());
         }

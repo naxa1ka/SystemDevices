@@ -7,10 +7,8 @@ namespace Source
         [SerializeField] private ButtonTriggerView _spawnDeviceButton;
         [SerializeField] private InputFieldView _durationChangingStateInputField;
         [SerializeField] private InputFieldView _idInputField;
-        [SerializeField] private InputFieldView _rotationInputField;
         [SerializeField] private CollisionResolverEnumDropDownListView _collisionResolverEnumDropDownListView;
 
-        public IInputView<string> RotationAngleInput => _rotationInputField;
         public IInputView<string> IdInput => _idInputField;
         public ITriggerView SpawnDeviceTrigger => _spawnDeviceButton;
         public IInputView<string> DurationChangingStateInput => _durationChangingStateInputField;

@@ -68,7 +68,11 @@ namespace Source
                     {
                         case DeviceActionDtoType.Rotation:
                             var rotationDeviceDto = GetDeserializeObject<RotationDeviceActionDto>(actionJsonItem);
-                            _deviceBuilder.AddRotationToDevice(rotationDeviceDto);
+                            _deviceBuilder.AddRotation(rotationDeviceDto);
+                            break;
+                        case DeviceActionDtoType.Color:
+                            var colorDeviceDto = GetDeserializeObject<ColorDeviceActionDto>(actionJsonItem);
+                            _deviceBuilder.AddChangingColor(colorDeviceDto);
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();

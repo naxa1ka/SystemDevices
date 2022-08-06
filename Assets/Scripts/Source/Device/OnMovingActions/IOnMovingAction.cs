@@ -2,5 +2,6 @@
 {
     public interface IOnMovingAction : IUpdateble
     {
+        public void Reset();
     }
 }

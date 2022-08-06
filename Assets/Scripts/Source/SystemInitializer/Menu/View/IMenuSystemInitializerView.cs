@@ -4,7 +4,6 @@
     {
         ITriggerView SpawnDeviceTrigger { get; }
         IInputView<string> DurationChangingStateInput { get; }
-        IInputView<string> RotationAngleInput { get; }
         IInputView<string> IdInput { get; }
         IEnumDropDownList<CollisionResolverType> CollisionResolverType { get; }
     }
